@@ -31,7 +31,7 @@ public class HoardingBugPhonePatch
                     bugPhone.GetComponent<NetworkObject>().Spawn();
                     bugPhone.GetComponent<NetworkObject>().TrySetParent(__instance.transform, false);
 
-                    PhoneManager.CreateNewPhone(bugPhone.GetComponent<NetworkObject>().NetworkObjectId);
+                    PhoneManager.CreateNewPhone(bugPhone.GetComponent<NetworkObject>().NetworkObjectId, -1);
                 }
             }
         }

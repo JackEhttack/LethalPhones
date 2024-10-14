@@ -8,6 +8,7 @@ using System.Numerics;
 using System.Text;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace Scoops.service
 {
@@ -38,20 +39,21 @@ namespace Scoops.service
             base.OnNetworkSpawn();
         }
 
-        public void CreateNewPhone(ulong phoneId)
+        public void CreateNewPhone(ulong phoneId, int wantedNumber)
         {
-            CreateNewPhoneNumberServerRpc(phoneId);
+            CreateNewPhoneNumberServerRpc(phoneId, wantedNumber);
         }
-
+        
         [ServerRpc(RequireOwnership = false)]
-        public void CreateNewPhoneNumberServerRpc(ulong phoneId, ServerRpcParams serverRpcParams = default)
+        public void CreateNewPhoneNumberServerRpc(ulong phoneId, int wantedNumber, ServerRpcParams serverRpcParams = default)
         {
             ulong clientId = serverRpcParams.Receive.SenderClientId;
-            int phoneNumber = Random.Range(0, 10000); ;
+            int phoneNumber = wantedNumber == -1 ? Random.Range(0, 10000) : Mathf.Clamp(wantedNumber, 0, 10000);
+
             string phoneString = phoneNumber.ToString("D4");
-            while (phoneNumberDict.ContainsKey(phoneNumber.ToString()))
+            while (phoneNumberDict.ContainsKey(phoneNumber.ToString("D4")))
             {
-                phoneNumber = Random.Range(0, 10000);
+                phoneNumber = Mathf.Clamp(phoneNumber + 1, 0, 10000);
                 phoneString = phoneNumber.ToString("D4");
             }
 

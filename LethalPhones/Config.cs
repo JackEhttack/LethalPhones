@@ -16,6 +16,8 @@ namespace Scoops
         public static ConfigEntry<float> minPhoneBugInterval;
         public static ConfigEntry<float> maxPhoneBugInterval;
 
+        public static ConfigEntry<int> customPhoneNumber;
+
         public Config(ConfigFile cfg)
         {
             voiceSoundMod = cfg.Bind(
@@ -53,6 +55,12 @@ namespace Scoops
                     "deathHangupTime",
                     0.5f,
                     "The time it takes (in seconds) for a call to auto-hangup after death."
+            );
+            customPhoneNumber = cfg.Bind(
+                    "General",
+                    "customPhoneNumber",
+                    -1,
+                    "Your phone number. Set to -1 for random number. If already taken will give similar number."
             );
 
             maxPhoneBugs = cfg.Bind(
